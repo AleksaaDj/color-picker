@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
         <variable
             name="onColorClick"
             type="android.view.View.OnClickListener" />
@@ -67,7 +66,8 @@
                         android:layout_height="25dp"
                         android:layout_centerHorizontal="true"
                         android:layout_centerVertical="true"
-                        android:src="@drawable/shaper_color" />
+                        android:src="@drawable/shaper_color"
+                        android:contentDescription="@string/image_teal" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -93,7 +93,8 @@
                         android:layout_centerHorizontal="true"
                         android:layout_centerVertical="true"
                         android:src="@drawable/shaper_color"
-                        app:tint="@color/green" />
+                        app:tint="@color/green"
+                        android:contentDescription="@string/image_green" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -119,7 +120,8 @@
                         android:layout_centerHorizontal="true"
                         android:layout_centerVertical="true"
                         android:src="@drawable/shaper_color"
-                        app:tint="@color/orange" />
+                        app:tint="@color/orange"
+                        android:contentDescription="@string/image_orange" />
                 </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
