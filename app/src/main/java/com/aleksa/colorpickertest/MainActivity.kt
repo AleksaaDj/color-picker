@@ -54,7 +54,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         imgTeal = findViewById(R.id.img_teal)
         imgGreen = findViewById(R.id.img_green)
         imgOrange = findViewById(R.id.img_orange)
-
     }
 
     private fun setColorListener() {
