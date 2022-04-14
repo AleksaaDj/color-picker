@@ -58,9 +58,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private fun setColorListener() {
         val seekBar: GradientSeekBar = bindingActivity.gradientBar
         bindingActivity.colorWheel.colorChangeListener = { rgb: Int ->
-            seekBar.startColor = rgb
-            seekBar.endColor = rgb.alpha.plus(100)
-            seekBar.thumbColor = seekBar.currentColorAlpha
+            with(seekBar){
+                startColor = rgb
+                endColor = rgb.alpha.plus(100)
+                thumbColor = this.currentColorAlpha
+            }
             changeSelectedColor(getHexColorFrom(rgb))
         }
     }
