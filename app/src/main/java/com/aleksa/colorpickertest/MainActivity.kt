@@ -4,8 +4,6 @@ import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Bundle
 import android.view.View
-import android.widget.ImageView
-import android.widget.RadioButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.alpha
@@ -14,7 +12,6 @@ import androidx.core.graphics.green
 import androidx.core.graphics.red
 import androidx.databinding.DataBindingUtil
 import com.aleksa.colorpickertest.databinding.ActivityMainBinding
-import com.apandroid.colorwheel.ColorWheel
 import com.apandroid.colorwheel.gradientseekbar.GradientSeekBar
 import com.apandroid.colorwheel.gradientseekbar.currentColorAlpha
 
@@ -26,102 +23,89 @@ enum class Colors {
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var bindingActivity: ActivityMainBinding
-    private lateinit var colorWheel: ColorWheel
-    private lateinit var gradientSeekBar: GradientSeekBar
-    private lateinit var colorTeal: RadioButton
-    private lateinit var colorGreen: RadioButton
-    private lateinit var colorOrange: RadioButton
-    private lateinit var imgTeal: ImageView
-    private lateinit var imgGreen: ImageView
-    private lateinit var imgOrange: ImageView
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         bindingActivity = DataBindingUtil.setContentView(this, R.layout.activity_main)
         bindingActivity.setVariable(BR.onColorClick, this)
 
-        initViews()
         setColorListener()
     }
 
-    private fun initViews() {
-        colorWheel = findViewById(R.id.colorWheel)
-        gradientSeekBar = findViewById(R.id.gradient_bar)
-        colorTeal = findViewById(R.id.radioTeal)
-        colorGreen = findViewById(R.id.radioGreen)
-        colorOrange = findViewById(R.id.radioOrange)
-        imgTeal = findViewById(R.id.img_teal)
-        imgGreen = findViewById(R.id.img_green)
-        imgOrange = findViewById(R.id.img_orange)
+    override fun onClick(view: View?) {
+        when (view?.id) {
+            R.id.color_teal_button -> {
+                view.setBackgroundColor(ContextCompat.getColor(this, R.color.light_gray))
+                bindingActivity.colorGreenButton.setBackgroundColor(ContextCompat.getColor(this, R.color.gray))
+                bindingActivity.colorOrangeButton.setBackgroundColor(ContextCompat.getColor(this, R.color.gray))
+                setCheckedButtons(Colors.TEAL)
+            }
+            R.id.color_green_button -> {
+                view.setBackgroundColor(ContextCompat.getColor(this, R.color.light_gray))
+                bindingActivity.colorTealButton.setBackgroundColor(ContextCompat.getColor(this, R.color.gray))
+                bindingActivity.colorOrangeButton.setBackgroundColor(ContextCompat.getColor(this, R.color.gray))
+                setCheckedButtons(Colors.GREEN)
+            }
+            R.id.color_orange_button -> {
+                view.setBackgroundColor(ContextCompat.getColor(this, R.color.light_gray))
+                bindingActivity.colorTealButton.setBackgroundColor(ContextCompat.getColor(this, R.color.gray))
+                bindingActivity.colorGreenButton.setBackgroundColor(ContextCompat.getColor(this, R.color.gray))
+                setCheckedButtons(Colors.ORANGE)
+            }
+        }
     }
 
     private fun setColorListener() {
-        colorWheel.colorChangeListener = { rgb: Int ->
-            gradientSeekBar.startColor = rgb
-            gradientSeekBar.endColor = rgb.alpha.plus(100)
-            gradientSeekBar.thumbColor = gradientSeekBar.currentColorAlpha
-            val hex = String.format("#%02x%02x%02x", rgb.red, rgb.green, rgb.blue)
-            changeSelectedColor(hex)
+        val seekBar: GradientSeekBar = bindingActivity.gradientBar
+        bindingActivity.colorWheel.colorChangeListener = { rgb: Int ->
+            seekBar.startColor = rgb
+            seekBar.endColor = rgb.alpha.plus(100)
+            seekBar.thumbColor = seekBar.currentColorAlpha
+            changeSelectedColor(getHexColorFrom(rgb))
         }
     }
 
-    private fun changeSelectedColor(hex: String) {
-        when {
-            colorTeal.isChecked -> {
-                imgTeal.setColorFilter(Color.parseColor(hex), PorterDuff.Mode.SRC_ATOP)
-            }
-            colorGreen.isChecked -> {
-                imgGreen.setColorFilter(Color.parseColor(hex), PorterDuff.Mode.SRC_ATOP)
-            }
-            colorOrange.isChecked -> {
-                imgOrange.setColorFilter(Color.parseColor(hex), PorterDuff.Mode.SRC_ATOP)
-            }
-        }
+    private fun getHexColorFrom(rgb: Int) : String{
+        return String.format("#%02x%02x%02x", rgb.red, rgb.green, rgb.blue)
     }
 
     private fun setCheckedButtons(color: Colors) {
         when (color) {
             Colors.TEAL -> {
-                colorGreen.isChecked = false
-                colorOrange.isChecked = false
-                colorGreen.setBackgroundColor(ContextCompat.getColor(this, R.color.gray))
-                colorOrange.setBackgroundColor(ContextCompat.getColor(this, R.color.gray))
-                colorTeal.isChecked = true
+                bindingActivity.colorGreenButton.isChecked = false
+                bindingActivity.colorOrangeButton.isChecked = false
+                bindingActivity.colorTealButton.isChecked = true
+                setColorWheelColor(ContextCompat.getColor(this, R.color.teal))
             }
             Colors.GREEN -> {
-                colorTeal.isChecked = false
-                colorOrange.isChecked = false
-                colorTeal.setBackgroundColor(ContextCompat.getColor(this, R.color.gray))
-                colorOrange.setBackgroundColor(ContextCompat.getColor(this, R.color.gray))
-                colorGreen.isChecked = true
+                bindingActivity.colorTealButton.isChecked = false
+                bindingActivity.colorOrangeButton.isChecked = false
+                bindingActivity.colorGreenButton.isChecked = true
+                setColorWheelColor(ContextCompat.getColor(this, R.color.green))
             }
             Colors.ORANGE -> {
-                colorTeal.isChecked = false
-                colorGreen.isChecked = false
-                colorTeal.setBackgroundColor(ContextCompat.getColor(this, R.color.gray))
-                colorGreen.setBackgroundColor(ContextCompat.getColor(this, R.color.gray))
-                colorOrange.isChecked = true
+                bindingActivity.colorTealButton.isChecked = false
+                bindingActivity.colorGreenButton.isChecked = false
+                bindingActivity.colorOrangeButton.isChecked = true
+                setColorWheelColor(ContextCompat.getColor(this, R.color.orange))
             }
         }
     }
 
-    override fun onClick(view: View?) {
-        when (view?.id) {
-            R.id.radioTeal -> {
-                colorWheel.rgb = Color.rgb(0, 194, 163)
-                view.setBackgroundColor(ContextCompat.getColor(this, R.color.light_gray))
-                setCheckedButtons(Colors.TEAL)
+    private fun setColorWheelColor(color: Int) {
+        bindingActivity.colorWheel.rgb = Color.rgb(color.red, color.green, color.blue)
+    }
+
+    private fun changeSelectedColor(hex: String) {
+        when {
+            bindingActivity.colorTealButton.isChecked -> {
+                bindingActivity.imgTeal.setColorFilter(Color.parseColor(hex), PorterDuff.Mode.SRC_ATOP)
             }
-            R.id.radioGreen -> {
-                colorWheel.rgb = Color.rgb(75, 165, 79)
-                view.setBackgroundColor(ContextCompat.getColor(this, R.color.light_gray))
-                setCheckedButtons(Colors.GREEN)
+            bindingActivity.colorGreenButton.isChecked -> {
+                bindingActivity.imgGreen.setColorFilter(Color.parseColor(hex), PorterDuff.Mode.SRC_ATOP)
             }
-            R.id.radioOrange -> {
-                colorWheel.rgb = Color.rgb(255, 97, 0)
-                view.setBackgroundColor(ContextCompat.getColor(this, R.color.light_gray))
-                setCheckedButtons(Colors.ORANGE)
+            bindingActivity.colorOrangeButton.isChecked -> {
+                bindingActivity.imgOrange.setColorFilter(Color.parseColor(hex), PorterDuff.Mode.SRC_ATOP)
             }
         }
     }
