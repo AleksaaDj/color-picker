@@ -46,7 +46,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(view: View?) {
         when (view?.id) {
             R.id.color_one_button -> {
-                setCheckedColorOnButton(view)
                 bindingActivity.colorTwoButton.setBackgroundColor(
                     ContextCompat.getColor(
                         this,
@@ -62,7 +61,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 setCheckedButtons(Buttons.ONE)
             }
             R.id.color_two_button -> {
-                setCheckedColorOnButton(view)
                 bindingActivity.colorOneButton.setBackgroundColor(
                     ContextCompat.getColor(
                         this,
@@ -78,7 +76,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 setCheckedButtons(Buttons.TWO)
             }
             R.id.color_three_button -> {
-                setCheckedColorOnButton(view)
                 bindingActivity.colorOneButton.setBackgroundColor(
                     ContextCompat.getColor(
                         this,
@@ -94,10 +91,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 setCheckedButtons(Buttons.THREE)
             }
         }
+        setCheckedColorOnButton(view)
     }
 
-    private fun setCheckedColorOnButton(view: View){
-        view.setBackgroundColor(ContextCompat.getColor(this, R.color.light_gray))
+    private fun setCheckedColorOnButton(view: View?){
+        view?.setBackgroundColor(ContextCompat.getColor(this, R.color.light_gray))
     }
 
     private fun setColorListener() {
